@@ -42,11 +42,11 @@ public class OrderController {
         return oRepository.getAll();
     }
 
-    public List<Order> getAllByCustomerId(Order cid) {
+    public List<Order> getAllByCustomerId(Order cid) throws CustomerDoesNotExist {
         Order x = oRepository.getByNumber(cid.getOrderNumber());
-        if (x.getCustomerId() == null) {
-            throw new CustomerDoesNotExist(cid.)
-        }
-        return oRepository.getAllByCustomerId(cid.getCustomerId());
+        if (x.getCustomerId() != cid.getCustomerId()) {
+            throw new CustomerDoesNotExist(cid.getCustomerId());
+        } else
+            return oRepository.getAllByCustomerId(cid.getCustomerId());
     }
 }

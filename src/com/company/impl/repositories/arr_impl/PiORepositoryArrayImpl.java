@@ -6,6 +6,7 @@ import com.company.repositories.ProductsInOrderRepository;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PiORepositoryArrayImpl implements ProductsInOrderRepository {
@@ -18,19 +19,20 @@ public class PiORepositoryArrayImpl implements ProductsInOrderRepository {
         return instance;
     }
 
+    private final HashMap<Integer, List<Product>> pio = new HashMap<>();
+
+    @Override
+    public void addProductInOrder(Order o, Product p) {//надо исправить
+       pio.put(o.getOrderNumber(), (List<Product>) p);
+    }
 
     @Override
     public List<Product> getByOrderNumber(Order o) {
-        o.getOrderNumber()
+        return pio.get(o.getOrderNumber());
     }
 
     @Override
-    public void addProductInOrder(Order o, Product p) {
-
-    }
-
-    @Override
-    public void deleteProductFromOder(Order o, Product p) {
-
+    public void deleteProductFromOder(Order o, Product p) {//надо исправить
+        pio.remove(o.getOrderNumber(), p);
     }
 }
