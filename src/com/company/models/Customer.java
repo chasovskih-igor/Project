@@ -9,6 +9,16 @@ public class Customer {
     private String address;
     private String e_mail;
 
+    public Customer(int id, String name, String surname, String patronymic, long phoneNumber, String address, String e_mail) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.address = address;
+        this.e_mail = e_mail;
+    }
+
     public int getId() {
         return id;
     }

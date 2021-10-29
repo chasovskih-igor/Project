@@ -11,6 +11,14 @@ public class Order {
     public static enum paymentType {Cash, ByCard}
     public static enum status {InStock, OnTheWay, Delivered}
 
+    public Order(int orderNumber, int customerId, String data, String deliveryAddress, int deliveryCost) {
+        this.orderNumber = orderNumber;
+        this.customerId = customerId;
+        this.data = data;
+        this.deliveryAddress = deliveryAddress;
+        this.deliveryCost = deliveryCost;
+    }
+
     public int getOrderNumber() {
         return orderNumber;
     }

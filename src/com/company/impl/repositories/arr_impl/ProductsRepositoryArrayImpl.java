@@ -6,7 +6,6 @@ import com.company.repositories.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ProductsRepositoryArrayImpl implements ProductRepository {
 
     private static ProductsRepositoryArrayImpl instance = null;
@@ -24,6 +23,7 @@ public class ProductsRepositoryArrayImpl implements ProductRepository {
         p.setDescription(k.getDescription());
         p.setHeight(k.getHeight());
         p.setLenght(k.getLenght());
+        p.setBrand(k.getBrand());
         p.setModel(k.getModel());
         p.setPresence(k.isPresence());
         p.setPrice(k.getPrice());
@@ -47,9 +47,9 @@ public class ProductsRepositoryArrayImpl implements ProductRepository {
     }
 
     @Override
-    public Product getByModel(String model) { //Находит товар по названию модели
+    public Product getByName(String brand, String model) { //Находит товар по названию модели
         for (Product p : products)
-            if (p.getModel().equals(model))
+            if (p.getModel().equals(model) && p.getBrand().equals(brand))
                 return p;
         return null;
     }

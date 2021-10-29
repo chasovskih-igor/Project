@@ -18,9 +18,9 @@ public class OrderController {
         }
     }
 
-    public static class CustomerDoesNotExist extends OrderException {
-        public CustomerDoesNotExist(int s) {
-            super(String.format("Заказчика с ID \"%s\" не существует", s));
+    public static class OrderDoesNotExist extends OrderException {
+        public OrderDoesNotExist(int s) {
+            super(String.format("Заказа с номером \"%s\" не существует", s));
         }
     }
 
@@ -38,15 +38,28 @@ public class OrderController {
         oRepository.add(o);
     }
 
-    public List<Order> getAll() {
-        return oRepository.getAll();
+    public Order getByNumber(int n) throws OrderDoesNotExist {
+        Order x = oRepository.getByNumber(n);
+        if (x == null) {
+            throw new OrderDoesNotExist(n);
+        }
+        return x;
     }
 
-    public List<Order> getAllByCustomerId(Order cid) throws CustomerDoesNotExist {
-        Order x = oRepository.getByNumber(cid.getOrderNumber());
-        if (x.getCustomerId() != cid.getCustomerId()) {
-            throw new CustomerDoesNotExist(cid.getCustomerId());
+    public List<Order> getAllByCustomerId(int cid) throws CustomerController.CustomerDoesNotExists {
+        Order x = oRepository.getByNumber(cid);
+        if (x == null || x.getCustomerId() == cid) {
+            throw new CustomerController.CustomerDoesNotExists();
         } else
-            return oRepository.getAllByCustomerId(cid.getCustomerId());
+            return oRepository.getAllByCustomerId(cid);
+    }
+    public void removeOrder(int n) throws OrderDoesNotExist{
+        Order x = oRepository.getByNumber(n);
+        if (x == null) throw new OrderDoesNotExist(n);
+        oRepository.delete(x);
+    }
+
+    public void update(Order o) {
+        oRepository.update(o);
     }
 }

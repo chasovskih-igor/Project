@@ -4,7 +4,8 @@ public class Product {
     private int vendorCode;
     private boolean presence;
     private String technicType;
-    public String model;
+    private String brand;
+    private String model;
     private int price;
     private int weight;
     private int height;
@@ -12,10 +13,13 @@ public class Product {
     private int width;
     private String description;
 
-    public Product(int vendorCode, boolean presence, String technicType, int price, int weight, int height, int lenght, int width, String description) {
+
+    public Product(int vendorCode, boolean presence, String technicType, String brand, String model, int price, int weight, int height, int lenght, int width, String description) {
         this.vendorCode = vendorCode;
         this.presence = presence;
         this.technicType = technicType;
+        this.brand = brand;
+        this.model = model;
         this.price = price;
         this.weight = weight;
         this.height = height;
@@ -104,5 +108,11 @@ public class Product {
         return model;
     }
 
+    public String getBrand() {
+        return brand;
+    }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 }

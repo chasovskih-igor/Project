@@ -13,7 +13,7 @@ import com.company.repositories.ProductsInOrderRepository;
 
 public class Main {
 
-    public static void main(String[] args) throws ProductsController.ProductAlreadyExists {
+    public static void main(String[] args) {
         ProductRepository pr = ProductsRepositoryArrayImpl.getInstance();
         OrderRepository or = OrderRepositoryArrayImpl.getInstance();
         CustomerRepository cr = CustomerRepositoryArrayImpl.getInstance();

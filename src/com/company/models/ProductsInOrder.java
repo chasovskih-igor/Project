@@ -5,6 +5,17 @@ public class ProductsInOrder {
     private Order o;
     private int count;
 
+    public ProductsInOrder(Product p, Order o, int count) {
+        this.p = p;
+        this.o = o;
+        this.count = count;
+    }
+
+    public ProductsInOrder(Product p, Order o) {
+        this.p = p;
+        this.o = o;
+    }
+
     public Product getP() {
         return p;
     }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductsInOrderRepository {
     List<Product> getByOrderNumber(Order o);
 
-    void addProductInOrder(Order o, Product p);
+    void addProductInOrder(Order o, Product p, int c);
 
     void deleteProductFromOder(Order o, Product p);
 

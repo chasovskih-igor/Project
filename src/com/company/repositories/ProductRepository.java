@@ -11,7 +11,7 @@ public interface ProductRepository {
 
     Product getByVendorCode(int vendorCode);
 
-    Product getByModel(String model);
+    Product getByName(String brand,String model);
 
     void add(Product p);
 

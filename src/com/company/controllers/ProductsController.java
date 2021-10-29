@@ -19,21 +19,26 @@ public class ProductsController {
     }
 
     public static class ProductDoesNotExist extends ProductsException {
-        public ProductDoesNotExist(String s) {
+        public ProductDoesNotExist(int s) {
             super(String.format("Товара с артикулом \"%s\" не существует", s));
         }
     }
+    public static class ProductDoesNotExistName extends ProductsException {
+        public ProductDoesNotExistName(String s) {
+            super(String.format("Товара с названием \"%s\" не существует", s));
+        }
+    }
 
-    private ProductRepository pRepository;
+    private final ProductRepository pRepository;
 
     public ProductsController(ProductRepository pRepository) {
         this.pRepository = pRepository;
     }
 
     public void addNewProduct(Product p) throws ProductAlreadyExists {
-        Product x = pRepository.getByModel(p.getModel());
+        Product x = pRepository.getByName(p.getBrand(), p.getModel());
         if (x != null) {
-            throw new ProductAlreadyExists(p.getModel(), p.getModel());
+            throw new ProductAlreadyExists(p.getBrand() + " " + p.getModel(), p.getBrand() + " " + p.getModel());
         }
         x = pRepository.getByVendorCode(p.getVendorCode());
         if (x != null) {
@@ -49,13 +54,28 @@ public class ProductsController {
     public void removeProduct(Product p) throws ProductDoesNotExist {
         Product x = pRepository.getByVendorCode(p.getVendorCode());
         if (x == null) {
-            throw new ProductDoesNotExist(Integer.toString(p.getVendorCode()));
+            throw new ProductDoesNotExist(p.getVendorCode());
         }
         pRepository.delete(p);
         System.out.println("\nТовар успешно удалён");
     }
 
     public List<Product> getAll() {
-        return pRepository.getAll().size() == 0 ? pRepository.getAll() : null;
+        return pRepository.getAll();
+    }
+
+    public Product getByVendorCode(int v) throws ProductDoesNotExist {
+        Product x = pRepository.getByVendorCode(v);
+        if (x == null) {
+            throw new ProductDoesNotExist(v);
+        }
+        return pRepository.getByVendorCode(v);
+    }
+    public Product getByName(String b, String m) throws ProductDoesNotExistName {
+        Product x = pRepository.getByName(b, m);
+        if (x == null) {
+            throw new ProductDoesNotExistName(b + " " + m);
+        }
+        return pRepository.getByName(b, m);
     }
 }
