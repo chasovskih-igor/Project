@@ -73,8 +73,7 @@ public class Application {
             case 2: {
                 try {
                     System.out.println("Введите номер заказа: ");
-                    Order x = oController.getByNumber(scanner.nextInt());
-                    pioController.getProductsFromOrder(x);
+                    pioController.getProductsFromOrder(oController.getByNumber(scanner.nextInt()));
                 } catch (OrderController.OrderDoesNotExist orderDoesNotExist) {
                     System.out.println(orderDoesNotExist.getMessage());
                 }
@@ -94,6 +93,7 @@ public class Application {
             break;
             default:
                 System.out.println("Нет такой команды");
+                break;
         }
     }
 
@@ -289,9 +289,7 @@ public class Application {
                     int lenght = scanner.nextInt();
                     System.out.println("Введите ширину товара: ");
                     int width = scanner.nextInt();
-                    System.out.println("Введите описание товара: ");
-                    String description = scanner.nextLine();
-                    pController.addNewProduct(new Product(vendorCode, presence, technicType, brand, model, price, weight, height, lenght, width, description));
+                    pController.addNewProduct(new Product(vendorCode, presence, technicType, brand, model, price, weight, height, lenght, width));
                 } catch (ProductsController.ProductAlreadyExists productAlreadyExists) {
                     System.out.println(productAlreadyExists.getMessage());
                 }
@@ -299,7 +297,7 @@ public class Application {
             break;
             case 2: {
                 for (Product p : pController.getAll()) {
-                    System.out.println(p.getVendorCode() + " " + p.isPresence() + " " + p.getTechnicType() + " " + p.getBrand() + " " + p.getModel() + " " + p.getPrice() + " " + p.getWeight() + " " + p.getHeight() + " " + p.getLenght() + " " + p.getWidth() + " " + p.getDescription());
+                    System.out.println(p.getVendorCode() + " " + p.isPresence() + " " + p.getTechnicType() + " " + p.getBrand() + " " + p.getModel() + " " + p.getPrice() + " " + p.getWeight() + " " + p.getHeight() + " " + p.getLenght() + " " + p.getWidth());
                 }
             }
             break;
@@ -341,9 +339,7 @@ public class Application {
                 int lenght = scanner.nextInt();
                 System.out.println("Введите ширину товара: ");
                 int width = scanner.nextInt();
-                System.out.println("Введите описание товара: ");
-                String description = scanner.next();
-                pController.update(new Product(vendorCode, presence, technicType, brand, model, price, weight, height, lenght, width, description));
+                pController.update(new Product(vendorCode, presence, technicType, brand, model, price, weight, height, lenght, width));
             }
             break;
             case 6: {

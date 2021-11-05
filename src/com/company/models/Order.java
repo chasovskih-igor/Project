@@ -2,14 +2,15 @@ package com.company.models;
 
 public class Order {
 
-    public static enum deliveryType {DeliveryToHouse, SelfPickUp}
+    public static enum DeliveryType {DeliveryToHouse, SelfPickUp}
     private int orderNumber;
     private int customerId;
     private String data;
     private String deliveryAddress;
     private int deliveryCost;
-    public static enum paymentType {Cash, ByCard}
-    public static enum status {InStock, OnTheWay, Delivered}
+    public static enum PaymentType {Cash, ByCard}
+    public static enum Status {InStock, OnTheWay, Delivered}
+    private Status orderStatus;
 
     public Order(int orderNumber, int customerId, String data, String deliveryAddress, int deliveryCost) {
         this.orderNumber = orderNumber;

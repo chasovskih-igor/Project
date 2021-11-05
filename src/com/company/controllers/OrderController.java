@@ -3,8 +3,6 @@ package com.company.controllers;
 import com.company.models.Order;
 import com.company.repositories.OrderRepository;
 
-import java.util.List;
-
 public class OrderController {
     public static class OrderException extends Exception {
         public OrderException(String message) {
@@ -24,7 +22,7 @@ public class OrderController {
         }
     }
 
-    private OrderRepository oRepository;
+    private final OrderRepository oRepository;
 
     public OrderController(OrderRepository oRepository) {
         this.oRepository = oRepository;
@@ -46,12 +44,13 @@ public class OrderController {
         return x;
     }
 
-    public List<Order> getAllByCustomerId(int cid) throws CustomerController.CustomerDoesNotExists {
+    public void getAllByCustomerId(int cid) throws CustomerController.CustomerDoesNotExists {
         Order x = oRepository.getByNumber(cid);
         if (x == null || x.getCustomerId() == cid) {
             throw new CustomerController.CustomerDoesNotExists();
-        } else
-            return oRepository.getAllByCustomerId(cid);
+        } else {
+            oRepository.getAllByCustomerId(cid);
+        }
     }
     public void removeOrder(int n) throws OrderDoesNotExist{
         Order x = oRepository.getByNumber(n);
