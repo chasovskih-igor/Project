@@ -2,6 +2,7 @@ package com.company.models;
 
 public class Customer {
     private int id;
+    private static long lastId = 0;
     private long phoneNumber;
     private String surname;
     private String name;
@@ -11,6 +12,9 @@ public class Customer {
 
     public Customer(int id, String name, String surname, String patronymic, long phoneNumber, String address, String e_mail) {
         this.id = id;
+        if (id > lastId) {
+            lastId = id;
+        }
         this.phoneNumber = phoneNumber;
         this.surname = surname;
         this.name = name;

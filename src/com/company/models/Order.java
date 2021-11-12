@@ -1,23 +1,43 @@
 package com.company.models;
 
+
 public class Order {
 
-    public static enum DeliveryType {DeliveryToHouse, SelfPickUp}
+    public enum DeliveryType {DeliveryToHouse, SelfPickUp}
+
+    public enum PaymentType {Cash, ByCard}
     private int orderNumber;
     private int customerId;
     private String data;
     private String deliveryAddress;
     private int deliveryCost;
-    public static enum PaymentType {Cash, ByCard}
-    public static enum Status {InStock, OnTheWay, Delivered}
-    private Status orderStatus;
+    private String delivery;
+    private String payment;
 
-    public Order(int orderNumber, int customerId, String data, String deliveryAddress, int deliveryCost) {
+    public Order(int orderNumber, int customerId, String data, String deliveryAddress, int deliveryCost, String delivery, String payment) {
         this.orderNumber = orderNumber;
         this.customerId = customerId;
         this.data = data;
         this.deliveryAddress = deliveryAddress;
         this.deliveryCost = deliveryCost;
+        this.delivery = delivery;
+        this.payment = payment;
+    }
+
+    public String getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(String delivery) {
+        this.delivery = delivery;
+    }
+
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
     }
 
     public int getOrderNumber() {

@@ -116,7 +116,15 @@ public class Application {
                     String address = scanner.nextLine();
                     System.out.println("Введите стоимость доставки: ");
                     int cost = scanner.nextInt();
-                    oController.addNewOrder(new Order(number, id, data, address, cost));
+                    System.out.println("Выберите тип доставки:\n1. Доставка к дому;\n2. Самовывоз\n");
+                    String delivery;
+                    if (scanner.nextInt() == 1)  delivery = Order.DeliveryType.DeliveryToHouse.toString();
+                    else delivery = Order.DeliveryType.SelfPickUp.toString();
+                    System.out.println("Выберите тип оплаты:\n1. По карте;\n2. Наличными\n");
+                    String payment;
+                    if (scanner.nextInt() == 1) payment = Order.PaymentType.ByCard.toString();
+                    else payment = Order.PaymentType.Cash.toString();
+                    oController.addNewOrder(new Order(number, id, data, address, cost, delivery, payment));
                 } catch (OrderController.OrderAlreadyExists orderAlreadyExists) {
                     System.out.println(orderAlreadyExists.getMessage());
                 }
@@ -151,7 +159,15 @@ public class Application {
                 String address = scanner.nextLine();
                 System.out.println("Введите стоимость доставки: ");
                 int cost = scanner.nextInt();
-                oController.update(new Order(number, id, data, address, cost));
+                System.out.println("Выберите тип доставки:\n1. Доставка к дому;\n2. Самовывоз\n");
+                String delivery;
+                if (scanner.nextInt() == 1)  delivery = Order.DeliveryType.DeliveryToHouse.toString();
+                else delivery = Order.DeliveryType.SelfPickUp.toString();
+                System.out.println("Выберите тип оплаты:\n1. По карте;\n2. Наличными\n");
+                String payment;
+                if (scanner.nextInt() == 1) payment = Order.PaymentType.ByCard.toString();
+                else payment = Order.PaymentType.Cash.toString();
+                oController.update(new Order(number, id, data, address, cost, delivery, payment));
             }
             break;
             case 5: {

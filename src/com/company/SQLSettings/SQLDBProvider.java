@@ -1,13 +1,13 @@
-package com.company.MySQLSettings;
+package com.company.SQLSettings;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySQLDBProvider implements DBConnectionProvider{
-    private static final String prefix = "com.mysql.jdbc.Driver";
+public class SQLDBProvider implements DBConnectionProvider{
+    private static final String prefix = "jdbc:sqlite:";
 
-    public MySQLDBProvider(String path) {
+    public SQLDBProvider(String path) {
         this.connectionString = prefix + path;
     }
 

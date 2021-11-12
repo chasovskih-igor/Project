@@ -30,6 +30,8 @@ public class OrderRepositoryArrayImpl implements OrderRepository {
         o.setDeliveryAddress(k.getDeliveryAddress());
         o.setDeliveryCost(k.getDeliveryCost());
         o.setOrderNumber(k.getOrderNumber());
+        o.setDelivery(k.getDelivery());
+        o.setPayment(k.getPayment());
     }
 
     @Override

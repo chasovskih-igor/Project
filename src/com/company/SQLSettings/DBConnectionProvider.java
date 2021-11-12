@@ -1,4 +1,4 @@
-package com.company.MySQLSettings;
+package com.company.SQLSettings;
 
 import java.sql.Connection;
 import java.sql.SQLException;
