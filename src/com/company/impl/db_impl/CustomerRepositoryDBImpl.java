@@ -64,7 +64,7 @@ public class CustomerRepositoryDBImpl implements CustomerRepository {
                 String patronymic = rslt.getString(PATRONYMIC_COLUMN_NAME);
                 String address = rslt.getString(ADDRESS_COLUMN_NAME);
                 String e_mail = rslt.getString(E_MAIL_COLUMN_NAME);
-                return new Customer(id, name, surname, patronymic, phoneNumber, address, e_mail);
+                return new Customer( id, name, surname, patronymic, phoneNumber, address, e_mail);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -97,7 +97,7 @@ public class CustomerRepositoryDBImpl implements CustomerRepository {
 
     @Override
     public void add(Customer c) {
-        final String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?,?);", TABLE_NAME);
+        final String query = String.format("INSERT INTO %s VALUES(?,?,?,?,?,?);", TABLE_NAME, NAME_COLUMN_NAME, SURNAME_COLUMN_NAME, PATRONYMIC_COLUMN_NAME, PHONENUMBER_COLUMN_NAME, ADDRESS_COLUMN_NAME, E_MAIL_COLUMN_NAME);
         try (Connection cn = dbProvider.getConnection()) {
             PreparedStatement q = cn.prepareStatement(query);
             q.setString(1, c.getName());
@@ -114,7 +114,7 @@ public class CustomerRepositoryDBImpl implements CustomerRepository {
 
     @Override
     public void update(Customer c) {
-        final String query = String.format("UPDATE %s SET %s =?, %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;", TABLE_NAME, NAME_COLUMN_NAME, SURNAME_COLUMN_NAME, PATRONYMIC_COLUMN_NAME, PHONENUMBER_COLUMN_NAME, ADDRESS_COLUMN_NAME, E_MAIL_COLUMN_NAME, ID_COLUMN_NAME);
+        final String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;", TABLE_NAME, NAME_COLUMN_NAME, SURNAME_COLUMN_NAME, PATRONYMIC_COLUMN_NAME, PHONENUMBER_COLUMN_NAME, ADDRESS_COLUMN_NAME, E_MAIL_COLUMN_NAME, ID_COLUMN_NAME);
         try (Connection cn = dbProvider.getConnection()) {
             PreparedStatement q = cn.prepareStatement(query);
             q.setString(1, c.getName());

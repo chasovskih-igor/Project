@@ -1,7 +1,5 @@
 package com.company.impl.repositories.arr_impl;
 
-import com.company.models.Order;
-import com.company.models.Product;
 import com.company.models.ProductsInOrder;
 import com.company.repositories.ProductsInOrderRepository;
 
@@ -22,26 +20,26 @@ public class PiORepositoryArrayImpl implements ProductsInOrderRepository {
     private final List<ProductsInOrder> pio = new ArrayList<>();
 
     @Override
-    public void addProductInOrder(Order o, Product p, int c) {
+    public void addProductInOrder(int o, int p, int c) {
         ProductsInOrder x = new ProductsInOrder(p, o, c);
         pio.add(x);
     }
 
     @Override
-    public List<Product> getByOrderNumber(Order o) {
-        List<Product> t = new ArrayList<>();
+    public List<ProductsInOrder> getByOrderNumber(int o) {
+        List<ProductsInOrder> t = new ArrayList<>();
         for (ProductsInOrder x : pio) {
-            if (x.getO().getOrderNumber() == o.getOrderNumber()) {
-                t.add(x.getP());
+            if (x.getOrderNumber() == o) {
+                t.add(x);
             }
         }
         return t;
     }
 
     @Override
-    public void deleteProductFromOder(Order o, Product p) {
+    public void deleteProductFromOder(int o, int p) {
         for (ProductsInOrder x : pio) {
-            if (x.getO().getOrderNumber() == o.getOrderNumber() && x.getP().getVendorCode() == p.getVendorCode()) {
+            if (x.getOrderNumber() == o && x.getProductVendorCode() == p) {
                 pio.remove(x);
                 break;
             }

@@ -1,15 +1,14 @@
 package com.company.repositories;
 
-import com.company.models.Order;
-import com.company.models.Product;
+import com.company.models.ProductsInOrder;
 
 import java.util.List;
 
 public interface ProductsInOrderRepository {
-    List<Product> getByOrderNumber(Order o);
+    List<ProductsInOrder> getByOrderNumber(int o);
 
-    void addProductInOrder(Order o, Product p, int c);
+    void addProductInOrder(int o, int p, int c);
 
-    void deleteProductFromOder(Order o, Product p);
+    void deleteProductFromOder(int o, int p);
 
 }

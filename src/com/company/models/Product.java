@@ -7,24 +7,16 @@ public class Product {
     private String brand;
     private String model;
     private int price;
-    private int weight;
-    private int height;
-    private int lenght;
-    private int width;
 
 
 
-    public Product(int vendorCode, boolean presence, String technicType, String brand, String model, int price, int weight, int height, int lenght, int width) {
+    public Product(int vendorCode, boolean presence, String technicType, String brand, String model, int price) {
         this.vendorCode = vendorCode;
         this.presence = presence;
         this.technicType = technicType;
         this.brand = brand;
         this.model = model;
         this.price = price;
-        this.weight = weight;
-        this.height = height;
-        this.lenght = lenght;
-        this.width = width;
     }
 
     public void setVendorCode(int vendorCode) {
@@ -47,24 +39,6 @@ public class Product {
         this.price = price;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-
-
     public boolean isPresence() {
         return presence;
     }
@@ -76,23 +50,6 @@ public class Product {
     public int getPrice() {
         return price;
     }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getLenght() {
-        return lenght;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
 
     public int getVendorCode() {
         return vendorCode;

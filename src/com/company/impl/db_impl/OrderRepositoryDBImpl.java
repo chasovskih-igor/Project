@@ -13,7 +13,7 @@ import java.util.List;
 
 public class OrderRepositoryDBImpl implements OrderRepository {
     private static final String TABLE_NAME = "Orders";
-    private static final String NUMBER_COLUMN_NAME = "number";
+    private static final String NUMBER_COLUMN_NAME = "orderNumber";
     private static final String CUSTOMER_ID_COLUMN_NAME = "customerId";
     private static final String DATA_COLUMN_NAME = "data";
     private static final String DELIVERY_ADDRESS_COLUMN_NAME = "deliveryAddress";

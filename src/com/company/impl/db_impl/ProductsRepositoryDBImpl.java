@@ -19,10 +19,6 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
     private static final String BRAND_COLUMN_NAME = "brand";
     private static final String MODEL_COLUMN_NAME = "model";
     private static final String PRICE_COLUMN_NAME = "price";
-    private static final String WEIGHT_COLUMN_NAME = "weight";
-    private static final String HEIGHT_COLUMN_NAME = "height";
-    private static final String LENGHT_COLUMN_NAME = "lenght";
-    private static final String WIDTH_COLUMN_NAME = "width";
 
     private final DBConnectionProvider dbProvider;
 
@@ -44,11 +40,8 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
                 String brand = rslt.getString(BRAND_COLUMN_NAME);
                 String model = rslt.getString(MODEL_COLUMN_NAME);
                 int price = rslt.getInt(PRICE_COLUMN_NAME);
-                int weight = rslt.getInt(WEIGHT_COLUMN_NAME);
-                int height = rslt.getInt(HEIGHT_COLUMN_NAME);
-                int length = rslt.getInt(LENGHT_COLUMN_NAME);
-                int width = rslt.getInt(WIDTH_COLUMN_NAME);
-                products.add(new Product(vC, presence != 0, type, brand, model, price, weight, height, length, width));
+
+                products.add(new Product(vC, presence != 0, type, brand, model, price));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -71,11 +64,7 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
                 String brand = rslt.getString(BRAND_COLUMN_NAME);
                 String model = rslt.getString(MODEL_COLUMN_NAME);
                 int price = rslt.getInt(PRICE_COLUMN_NAME);
-                int weight = rslt.getInt(WEIGHT_COLUMN_NAME);
-                int height = rslt.getInt(HEIGHT_COLUMN_NAME);
-                int length = rslt.getInt(LENGHT_COLUMN_NAME);
-                int width = rslt.getInt(WIDTH_COLUMN_NAME);
-                return new Product(vendorCode, presence != 0, type, brand, model, price, weight, height, length, width);
+                return new Product(vendorCode, presence != 0, type, brand, model, price);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -98,11 +87,7 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
                 String b = rslt.getString(BRAND_COLUMN_NAME);
                 String m = rslt.getString(MODEL_COLUMN_NAME);
                 int price = rslt.getInt(PRICE_COLUMN_NAME);
-                int weight = rslt.getInt(WEIGHT_COLUMN_NAME);
-                int height = rslt.getInt(HEIGHT_COLUMN_NAME);
-                int length = rslt.getInt(LENGHT_COLUMN_NAME);
-                int width = rslt.getInt(WIDTH_COLUMN_NAME);
-                return new Product(vC, presence != 0, type, b, m, price, weight, height, length, width);
+                return new Product(vC, presence != 0, type, b, m, price);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -112,7 +97,7 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
 
     @Override
     public void add(Product p) {
-        final String query = String.format("INSERT INTO %s VALUES(?,?,?,?,?,?,?,?,?,?);", TABLE_NAME);
+        final String query = String.format("INSERT INTO %s VALUES(?,?,?,?,?,?);", TABLE_NAME);
         try (Connection c = dbProvider.getConnection()) {
             PreparedStatement q = c.prepareStatement(query);
             q.setInt(1, p.getVendorCode());
@@ -121,10 +106,6 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
             q.setString(4, p.getBrand());
             q.setString(5, p.getModel());
             q.setInt(6, p.getPrice());
-            q.setInt(7, p.getWeight());
-            q.setInt(8, p.getHeight());
-            q.setInt(9, p.getLenght());
-            q.setInt(10, p.getWidth());
             q.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -133,7 +114,7 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
 
     @Override
     public void update(Product p) {
-        final String query = String.format("UPDATE %s SET %s =?, %s=?, %s=?, %s=?, %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;", TABLE_NAME, PRESENCE_COLUMN_NAME, TECHNICTYPE_COLUMN_NAME, BRAND_COLUMN_NAME, MODEL_COLUMN_NAME, PRICE_COLUMN_NAME, WEIGHT_COLUMN_NAME, HEIGHT_COLUMN_NAME, LENGHT_COLUMN_NAME, WIDTH_COLUMN_NAME, VENDORCODE_COLUMN_NAME);
+        final String query = String.format("UPDATE %s SET %s =?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;", TABLE_NAME, PRESENCE_COLUMN_NAME, TECHNICTYPE_COLUMN_NAME, BRAND_COLUMN_NAME, MODEL_COLUMN_NAME, PRICE_COLUMN_NAME, VENDORCODE_COLUMN_NAME);
         try (Connection c = dbProvider.getConnection()) {
             PreparedStatement q = c.prepareStatement(query);
             q.setInt(1, p.isPresence() ? 1 : 0);
@@ -141,11 +122,7 @@ public class ProductsRepositoryDBImpl implements ProductRepository {
             q.setString(3, p.getBrand());
             q.setString(4, p.getModel());
             q.setInt(5, p.getPrice());
-            q.setInt(6, p.getWeight());
-            q.setInt(7, p.getHeight());
-            q.setInt(8, p.getLenght());
-            q.setInt(9, p.getWidth());
-            q.setInt(10, p.getVendorCode());
+            q.setInt(6, p.getVendorCode());
             q.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -14,7 +14,7 @@ public class ProductsController {
 
     public static class ProductAlreadyExists extends ProductsException {
         public ProductAlreadyExists(String s, String cause) {
-            super(String.format("Товар \"%s\" уже существует", s, "Причина - название и/или артикул: \"%s\"", cause));
+            super(String.format("Товар \"%s\" уже существует. Причина - название и/или артикул: \"%s\"", s, cause));
         }
     }
 

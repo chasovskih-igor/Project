@@ -20,16 +20,12 @@ public class ProductsRepositoryArrayImpl implements ProductRepository {
 
     @Override
     public void copy(Product p, Product k) {
-        p.setHeight(k.getHeight());
-        p.setLenght(k.getLenght());
         p.setBrand(k.getBrand());
         p.setModel(k.getModel());
         p.setPresence(k.isPresence());
         p.setPrice(k.getPrice());
         p.setTechnicType(k.getTechnicType());
         p.setVendorCode(k.getVendorCode());
-        p.setWeight(k.getWeight());
-        p.setWidth(k.getWidth());
     }
 
     @Override

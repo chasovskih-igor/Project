@@ -4,9 +4,7 @@ import com.company.controllers.CustomerController;
 import com.company.controllers.OrderController;
 import com.company.controllers.PiOController;
 import com.company.controllers.ProductsController;
-import com.company.models.Customer;
-import com.company.models.Order;
-import com.company.models.Product;
+import com.company.models.*;
 import com.company.repositories.CustomerRepository;
 import com.company.repositories.OrderRepository;
 import com.company.repositories.ProductRepository;
@@ -64,7 +62,7 @@ public class Application {
                     int vendorCode = scanner.nextInt();
                     System.out.println("Введите количество данного товара: ");
                     int count = scanner.nextInt();
-                    pioController.addProductInOrder(oController.getByNumber(number), pController.getByVendorCode(vendorCode), count);
+                    pioController.addProductInOrder(number, vendorCode, count);
                 } catch (OrderController.OrderDoesNotExist | ProductsController.ProductDoesNotExist orderDoesNotExist) {
                     System.out.println("Такого заказа или такого товара не существует");
                 }
@@ -73,7 +71,7 @@ public class Application {
             case 2: {
                 try {
                     System.out.println("Введите номер заказа: ");
-                    pioController.getProductsFromOrder(oController.getByNumber(scanner.nextInt()));
+                    for (ProductsInOrder x: pioController.getProductsFromOrder(scanner.nextInt())) System.out.println(x.getOrderNumber() + " | " + x.getProductVendorCode() + " | " + x.getCount());
                 } catch (OrderController.OrderDoesNotExist orderDoesNotExist) {
                     System.out.println(orderDoesNotExist.getMessage());
                 }
@@ -85,7 +83,8 @@ public class Application {
                     int number = scanner.nextInt();
                     System.out.println("Введите артикул товара: ");
                     int vendorCode = scanner.nextInt();
-                    pioController.removeProductFromOrder(oController.getByNumber(number), pController.getByVendorCode(vendorCode));
+                    pioController.removeProductFromOrder(number, vendorCode);
+                    System.out.println("Товар успешно удалён");
                 } catch (OrderController.OrderDoesNotExist | ProductsController.ProductDoesNotExist orderDoesNotExist) {
                     System.out.println("Такого заказа или такого товара не существует");
                 }
@@ -106,25 +105,23 @@ public class Application {
                 break;
             case 1: {
                 try {
-                    System.out.println("Введите номер заказа: ");
-                    int number = scanner.nextInt();
                     System.out.println("Введите ID заказчика: ");
                     int id = scanner.nextInt();
                     System.out.println("Введите дату заказа: ");
-                    String data = scanner.nextLine();
+                    String data = scanner.next();
                     System.out.println("Введите адрес доставки: ");
-                    String address = scanner.nextLine();
+                    String address = scanner.next();
                     System.out.println("Введите стоимость доставки: ");
                     int cost = scanner.nextInt();
-                    System.out.println("Выберите тип доставки:\n1. Доставка к дому;\n2. Самовывоз\n");
-                    String delivery;
-                    if (scanner.nextInt() == 1)  delivery = Order.DeliveryType.DeliveryToHouse.toString();
-                    else delivery = Order.DeliveryType.SelfPickUp.toString();
-                    System.out.println("Выберите тип оплаты:\n1. По карте;\n2. Наличными\n");
-                    String payment;
-                    if (scanner.nextInt() == 1) payment = Order.PaymentType.ByCard.toString();
-                    else payment = Order.PaymentType.Cash.toString();
-                    oController.addNewOrder(new Order(number, id, data, address, cost, delivery, payment));
+                    System.out.println("Выберите тип доставки:\n1. Доставка к дому\n2. Самовывоз");
+                    DeliveryType delivery;
+                    if (scanner.nextInt() == 1)  delivery = DeliveryType.DeliveryToHouse;
+                    else delivery = DeliveryType.SelfPickUp;
+                    System.out.println("Выберите тип оплаты:\n1. По карте\n2. Наличными");
+                    PaymentType payment;
+                    if (scanner.nextInt() == 1) payment = PaymentType.ByCard;
+                    else payment = PaymentType.Cash;
+                    oController.addNewOrder(new Order(id, data, address, cost, delivery, payment));
                 } catch (OrderController.OrderAlreadyExists orderAlreadyExists) {
                     System.out.println(orderAlreadyExists.getMessage());
                 }
@@ -133,7 +130,8 @@ public class Application {
             case 2: {
                 try {
                     System.out.println("Введите номер заказа: ");
-                    oController.getByNumber(scanner.nextInt());
+                    Order o = oController.getByNumber(scanner.nextInt());
+                    System.out.println(o.getOrderNumber() + " | " + o.getCustomerId() + " | " + o.getData() + " | " + o.getDeliveryAddress() + " | " + o.getDeliveryCost() + " | " + o.getDelivery() + " | " + o.getPayment());
                 } catch (OrderController.OrderDoesNotExist orderDoesNotExist) {
                     System.out.println(orderDoesNotExist.getMessage());
                 }
@@ -142,7 +140,7 @@ public class Application {
             case 3: {
                 try {
                     System.out.println("Введите номер заказчика: ");
-                    oController.getAllByCustomerId(scanner.nextInt());
+                    for (Order x : oController.getAllByCustomerId(scanner.nextInt())) System.out.println(x.getOrderNumber() + " | " + x.getCustomerId() + " | " + x.getData() + " | " + x.getDeliveryAddress() + " | " + x.getDeliveryCost() + " | " + x.getDelivery() + " | " + x.getPayment());
                 } catch (CustomerController.CustomerDoesNotExists customerDoesNotExists) {
                     System.out.println(customerDoesNotExists.getMessage());
                 }
@@ -160,13 +158,13 @@ public class Application {
                 System.out.println("Введите стоимость доставки: ");
                 int cost = scanner.nextInt();
                 System.out.println("Выберите тип доставки:\n1. Доставка к дому;\n2. Самовывоз\n");
-                String delivery;
-                if (scanner.nextInt() == 1)  delivery = Order.DeliveryType.DeliveryToHouse.toString();
-                else delivery = Order.DeliveryType.SelfPickUp.toString();
+                DeliveryType delivery;
+                if (scanner.nextInt() == 1)  delivery = DeliveryType.DeliveryToHouse;
+                else delivery = DeliveryType.SelfPickUp;
                 System.out.println("Выберите тип оплаты:\n1. По карте;\n2. Наличными\n");
-                String payment;
-                if (scanner.nextInt() == 1) payment = Order.PaymentType.ByCard.toString();
-                else payment = Order.PaymentType.Cash.toString();
+                PaymentType payment;
+                if (scanner.nextInt() == 1) payment = PaymentType.ByCard;
+                else payment = PaymentType.Cash;
                 oController.update(new Order(number, id, data, address, cost, delivery, payment));
             }
             break;
@@ -198,8 +196,6 @@ public class Application {
                 break;
             case 1: {
                 try {
-                    System.out.println("Введите ID: ");
-                    int id = scanner.nextInt();
                     System.out.println("Введите имя: ");
                     String name = scanner.next();
                     System.out.println("Введите фамилию: ");
@@ -209,10 +205,10 @@ public class Application {
                     System.out.println("Введите телефон: ");
                     long number = scanner.nextLong();
                     System.out.println("Введите адрес: ");
-                    String address = scanner.nextLine();
+                    String address = scanner.next();
                     System.out.println("Введите E-mail (если есть): ");
-                    String mail = scanner.nextLine();
-                    cController.addNewCustomer(new Customer(id, name, surname, patronymic, number, address, mail));
+                    String mail = scanner.next();
+                    cController.addNewCustomer(new Customer( name, surname, patronymic, number, address, mail));
                 } catch (CustomerController.CustomerAlreadyExists customerAlreadyExists) {
                     System.out.println(customerAlreadyExists.getMessage());
                 }
@@ -221,7 +217,8 @@ public class Application {
             case 2: {
                 System.out.println("Введите ID искомого заказчика: ");
                 try {
-                    cController.getById(scanner.nextInt());
+                    Customer c = cController.getById(scanner.nextInt());
+                    System.out.println(c.getId() + " | " + c.getName() + " | " + c.getSurname() + " | " + c.getPatronymic() + " | " + c.getPhoneNumber() + " | " + c.getAddress() + " | " + c.getE_mail());
                 } catch (CustomerController.CustomerDoesNotExists customerDoesNotExists) {
                     System.out.println(customerDoesNotExists.getMessage());
                 }
@@ -230,7 +227,8 @@ public class Application {
             case 3: {
                 try {
                     System.out.println("Введите номер: ");
-                    cController.getByPhoneNumber(scanner.nextLong());
+                    Customer c = cController.getByPhoneNumber(scanner.nextLong());
+                    System.out.println(c.getId() + " | " + c.getName() + " | " + c.getSurname() + " | " + c.getPatronymic() + " | " + c.getPhoneNumber() + " | " + c.getAddress() + " | " + c.getE_mail());
                 } catch (CustomerController.CustomerDoesNotExists customerDoesNotExists) {
                     System.out.println(customerDoesNotExists.getMessage());
                 }
@@ -238,12 +236,12 @@ public class Application {
             break;
             case 4: {
                 for (Customer c : cController.getAll()) {
-                    System.out.println(c.getId() + " " + c.getName() + " " + c.getSurname() + " " + c.getPatronymic() + " " + c.getPhoneNumber() + " " + c.getAddress() + " " + c.getE_mail());
+                    System.out.println(c.getId() + " | " + c.getName() + " | " + c.getSurname() + " | " + c.getPatronymic() + " | " + c.getPhoneNumber() + " | " + c.getAddress() + " | " + c.getE_mail());
                 }
             }
             break;
             case 5: {
-                System.out.println("Введите ID: ");
+                System.out.println("Введите id: ");
                 int id = scanner.nextInt();
                 System.out.println("Введите имя: ");
                 String name = scanner.next();
@@ -254,10 +252,10 @@ public class Application {
                 System.out.println("Введите телефон: ");
                 long number = scanner.nextLong();
                 System.out.println("Введите адрес: ");
-                String address = scanner.nextLine();
+                String address = scanner.next();
                 System.out.println("Введите E-mail (если есть): ");
-                String mail = scanner.nextLine();
-                cController.update(new Customer(id, name, surname, patronymic, number, address, mail));
+                String mail = scanner.next();
+                cController.update(new Customer(id ,name, surname, patronymic, number, address, mail));
             }
             break;
             case 6: {
@@ -288,7 +286,7 @@ public class Application {
                     System.out.println("Введите артикул нового товара: ");
                     int vendorCode = scanner.nextInt();
                     System.out.println("Введите наличие нового товара: ");
-                    boolean presence = scanner.nextBoolean();
+                    String presence = scanner.next();
                     System.out.println("Введите вид товара: ");
                     String technicType = scanner.next();
                     System.out.println("Введите бренд товара: ");
@@ -297,15 +295,7 @@ public class Application {
                     String model = scanner.next();
                     System.out.println("Введите цену товара: ");
                     int price = scanner.nextInt();
-                    System.out.println("Введите вес товара: ");
-                    int weight = scanner.nextInt();
-                    System.out.println("Введите высоту товара: ");
-                    int height = scanner.nextInt();
-                    System.out.println("Введите длину товара: ");
-                    int lenght = scanner.nextInt();
-                    System.out.println("Введите ширину товара: ");
-                    int width = scanner.nextInt();
-                    pController.addNewProduct(new Product(vendorCode, presence, technicType, brand, model, price, weight, height, lenght, width));
+                    pController.addNewProduct(new Product(vendorCode, presence.equals("+"), technicType, brand, model, price));
                 } catch (ProductsController.ProductAlreadyExists productAlreadyExists) {
                     System.out.println(productAlreadyExists.getMessage());
                 }
@@ -313,14 +303,15 @@ public class Application {
             break;
             case 2: {
                 for (Product p : pController.getAll()) {
-                    System.out.println(p.getVendorCode() + " " + p.isPresence() + " " + p.getTechnicType() + " " + p.getBrand() + " " + p.getModel() + " " + p.getPrice() + " " + p.getWeight() + " " + p.getHeight() + " " + p.getLenght() + " " + p.getWidth());
+                    System.out.println(p.getVendorCode() + " | " + p.isPresence() + " | " + p.getTechnicType() + " | " + p.getBrand() + " | " + p.getModel() + " | " + p.getPrice());
                 }
             }
             break;
             case 3: {
                 try {
                     System.out.println("Введите артикул товара: ");
-                    pController.getByVendorCode(scanner.nextInt());
+                    Product p = pController.getByVendorCode(scanner.nextInt());
+                    System.out.println(p.getVendorCode() + " | " + p.isPresence() + " | " + p.getTechnicType() + " | " + p.getBrand() + " | " + p.getModel() + " | " + p.getPrice());
                 } catch (ProductsController.ProductDoesNotExist productDoesNotExist) {
                     System.out.println(productDoesNotExist.getMessage());
                 }
@@ -329,16 +320,17 @@ public class Application {
             case 4: {
                 try {
                     System.out.println("Введите бренд и модель товара: ");
-                    pController.getByName(scanner.next(), scanner.next());
+                    Product p = pController.getByName(scanner.next(), scanner.next());
+                    System.out.println(p.getVendorCode() + " | " + p.isPresence() + " | " + p.getTechnicType() + " | " + p.getBrand() + " | " + p.getModel() + " | " + p.getPrice());
                 } catch (ProductsController.ProductDoesNotExistName productDoesNotExistName) {
                     System.out.println(productDoesNotExistName.getMessage());
                 }
             }
             case 5: {
-                System.out.println("Введите артикул нового товара: ");
+                System.out.println("Введите артикул товара: ");
                 int vendorCode = scanner.nextInt();
-                System.out.println("Введите наличие нового товара: ");
-                boolean presence = scanner.nextBoolean();
+                System.out.println("Введите наличие товара (+ или -): ");
+                String presence = scanner.next();
                 System.out.println("Введите вид товара: ");
                 String technicType = scanner.next();
                 System.out.println("Введите бренд товара: ");
@@ -347,15 +339,7 @@ public class Application {
                 String model = scanner.next();
                 System.out.println("Введите цену товара: ");
                 int price = scanner.nextInt();
-                System.out.println("Введите вес товара: ");
-                int weight = scanner.nextInt();
-                System.out.println("Введите высоту товара: ");
-                int height = scanner.nextInt();
-                System.out.println("Введите длину товара: ");
-                int lenght = scanner.nextInt();
-                System.out.println("Введите ширину товара: ");
-                int width = scanner.nextInt();
-                pController.update(new Product(vendorCode, presence, technicType, brand, model, price, weight, height, lenght, width));
+                pController.update(new Product(vendorCode, presence.equals("+"), technicType, brand, model, price));
             }
             break;
             case 6: {

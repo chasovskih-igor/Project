@@ -1,36 +1,32 @@
 package com.company.models;
 
 public class ProductsInOrder {
-    private Product p;
-    private Order o;
+    private int productVendorCode;
+    private int orderNumber;
     private int count;
 
-    public ProductsInOrder(Product p, Order o, int count) {
-        this.p = p;
-        this.o = o;
+    public ProductsInOrder(int p, int o, int count) {
+        this.productVendorCode = p;
+        this.orderNumber = o;
         this.count = count;
     }
 
-    public ProductsInOrder(Product p, Order o) {
-        this.p = p;
-        this.o = o;
+    public int getProductVendorCode() {
+        return productVendorCode;
     }
 
-    public Product getP() {
-        return p;
+    public void setProductVendorCode(int productVendorCode) {
+        this.productVendorCode = productVendorCode;
     }
 
-    public void setP(Product p) {
-        this.p = p;
+    public int getOrderNumber() {
+        return orderNumber;
     }
 
-    public Order getO() {
-        return o;
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    public void setO(Order o) {
-        this.o = o;
-    }
 
     public int getCount() {
         return count;
