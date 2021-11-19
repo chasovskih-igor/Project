@@ -85,8 +85,8 @@ public class Application {
                     int vendorCode = scanner.nextInt();
                     pioController.removeProductFromOrder(number, vendorCode);
                     System.out.println("Товар успешно удалён");
-                } catch (OrderController.OrderDoesNotExist | ProductsController.ProductDoesNotExist orderDoesNotExist) {
-                    System.out.println("Такого заказа или такого товара не существует");
+                } catch (OrderController.OrderDoesNotExist | ProductsController.ProductDoesNotExist | PiOController.ProductNotInOrder orderDoesNotExist) {
+                    System.out.println(orderDoesNotExist.getMessage());
                 }
             }
             break;

@@ -1,8 +1,12 @@
 package com.company.models;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Customer {
     private int id;
     private static int lastId = 0;
+    public static Queue<Integer> deletedId = new LinkedList<>();
     private long phoneNumber;
     private String surname;
     private String name;
@@ -24,8 +28,11 @@ public class Customer {
     }
 
     public Customer(String name, String surname, String patronymic, long phoneNumber, String address, String e_mail) {
-        this.id = lastId;
-        lastId++;
+        if (!deletedId.isEmpty() && deletedId.peek() < lastId) this.id = deletedId.poll();
+        else {
+            this.id = lastId;
+            lastId++;
+        }
         this.phoneNumber = phoneNumber;
         this.surname = surname;
         this.name = name;

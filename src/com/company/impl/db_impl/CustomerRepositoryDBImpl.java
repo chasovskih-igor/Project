@@ -97,7 +97,7 @@ public class CustomerRepositoryDBImpl implements CustomerRepository {
 
     @Override
     public void add(Customer c) {
-        final String query = String.format("INSERT INTO %s VALUES(?,?,?,?,?,?);", TABLE_NAME, NAME_COLUMN_NAME, SURNAME_COLUMN_NAME, PATRONYMIC_COLUMN_NAME, PHONENUMBER_COLUMN_NAME, ADDRESS_COLUMN_NAME, E_MAIL_COLUMN_NAME);
+        final String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?,?);", TABLE_NAME);
         try (Connection cn = dbProvider.getConnection()) {
             PreparedStatement q = cn.prepareStatement(query);
             q.setString(1, c.getName());

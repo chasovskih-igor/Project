@@ -63,6 +63,7 @@ public class CustomerController {
         Customer x = cRepository.getById(c.getId());
         if (x == null) throw new CustomerDoesNotExists();
         cRepository.deleteById(c.getId());
+        Customer.deletedId.add(x.getId());
     }
 
     public List<Customer> getAll() {

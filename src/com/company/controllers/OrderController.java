@@ -25,10 +25,10 @@ public class OrderController {
         }
     }
 
-    private final OrderRepository oRepository;
+    public static OrderRepository oRepository;
 
     public OrderController(OrderRepository oRepository) {
-        this.oRepository = oRepository;
+        OrderController.oRepository = oRepository;
     }
 
     public void addNewOrder(Order o) throws OrderAlreadyExists {
@@ -62,6 +62,7 @@ public class OrderController {
         Order x = oRepository.getByNumber(n);
         if (x == null) throw new OrderDoesNotExist(n);
         oRepository.delete(x);
+        Order.deletedId.add(x.getOrderNumber());
     }
 
     public void update(Order o) {

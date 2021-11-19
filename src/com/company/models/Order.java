@@ -1,10 +1,14 @@
 package com.company.models;
 
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Order {
     private int orderNumber;
     private int customerId;
     private static int lastId = 0;
+    public static Queue<Integer> deletedId = new LinkedList<>();
     private String data;
     private String deliveryAddress;
     private int deliveryCost;
@@ -25,8 +29,11 @@ public class Order {
     }
 
     public Order(int customerId, String data, String deliveryAddress, int deliveryCost, DeliveryType delivery, PaymentType payment) {
-        this.orderNumber = lastId;
-        lastId++;
+        if (!deletedId.isEmpty() && deletedId.peek() < lastId) this.orderNumber = deletedId.poll();
+        else {
+            this.orderNumber = lastId;
+            lastId++;
+        }
         this.customerId = customerId;
         this.data = data;
         this.deliveryAddress = deliveryAddress;
@@ -35,7 +42,7 @@ public class Order {
         this.payment = payment;
     }
 
-    public Order(int customerId, String data, String deliveryAddress, int deliveryCost, String delivery, String payment) {
+/*    public Order(int customerId, String data, String deliveryAddress, int deliveryCost, String delivery, String payment) {
         this.orderNumber = lastId;
         lastId++;
         this.customerId = customerId;
@@ -45,6 +52,7 @@ public class Order {
         setDelivery(delivery);
         setPayment(payment);
     }
+*/
 
     public Order(int orderNumber, int customerId, String data, String deliveryAddress, int deliveryCost, DeliveryType delivery, PaymentType payment) {
         this.orderNumber = orderNumber;
