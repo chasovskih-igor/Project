@@ -100,10 +100,10 @@ public class CustomerRepositoryDBImpl implements CustomerRepository {
         final String query = String.format("INSERT INTO %s VALUES(null,?,?,?,?,?,?);", TABLE_NAME);
         try (Connection cn = dbProvider.getConnection()) {
             PreparedStatement q = cn.prepareStatement(query);
-            q.setString(1, c.getName());
+            q.setLong(1, c.getPhoneNumber());
             q.setString(2, c.getSurname());
-            q.setString(3, c.getPatronymic());
-            q.setLong(4, c.getPhoneNumber());
+            q.setString(3, c.getName());
+            q.setString(4, c.getPatronymic());
             q.setString(5, c.getAddress());
             q.setString(6, c.getE_mail());
             q.executeUpdate();
@@ -114,13 +114,13 @@ public class CustomerRepositoryDBImpl implements CustomerRepository {
 
     @Override
     public void update(Customer c) {
-        final String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;", TABLE_NAME, NAME_COLUMN_NAME, SURNAME_COLUMN_NAME, PATRONYMIC_COLUMN_NAME, PHONENUMBER_COLUMN_NAME, ADDRESS_COLUMN_NAME, E_MAIL_COLUMN_NAME, ID_COLUMN_NAME);
+        final String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;", TABLE_NAME, PHONENUMBER_COLUMN_NAME, SURNAME_COLUMN_NAME, NAME_COLUMN_NAME, PATRONYMIC_COLUMN_NAME, ADDRESS_COLUMN_NAME, E_MAIL_COLUMN_NAME, ID_COLUMN_NAME);
         try (Connection cn = dbProvider.getConnection()) {
             PreparedStatement q = cn.prepareStatement(query);
-            q.setString(1, c.getName());
+            q.setLong(1, c.getPhoneNumber());
             q.setString(2, c.getSurname());
-            q.setString(3, c.getPatronymic());
-            q.setLong(4, c.getPhoneNumber());
+            q.setString(3, c.getName());
+            q.setString(4, c.getPatronymic());
             q.setString(5, c.getAddress());
             q.setString(6, c.getE_mail());
             q.setInt(7,c.getId());
