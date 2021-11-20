@@ -29,10 +29,10 @@ public class ProductsController {
         }
     }
 
-    public static ProductRepository pRepository;
+    private final ProductRepository pRepository;
 
     public ProductsController(ProductRepository pRepository) {
-        ProductsController.pRepository = pRepository;
+        this.pRepository = pRepository;
     }
 
     public void addNewProduct(Product p) throws ProductAlreadyExists {

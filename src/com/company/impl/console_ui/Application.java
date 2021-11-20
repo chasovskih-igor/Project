@@ -24,7 +24,7 @@ public class Application {
         pController = new ProductsController(repository);
         cController = new CustomerController(cr);
         oController = new OrderController(or);
-        pioController = new PiOController(pio);
+        pioController = new PiOController(pio, repository, or);
     }
 
     private void printMainMenu() {
